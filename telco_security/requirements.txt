@@ -1,0 +1,10 @@
+# Telco analytics add-on dependencies.
+# This file is NOT part of upstream Apache Superset.
+#
+# Pins are kept at or above the first release that fixes the known CVEs:
+#   PyYAML   >= 6.0.1  (CVE-2020-14343, arbitrary code execution)
+#   Jinja2   >= 3.1.4  (CVE-2020-28493, ReDoS)
+#   requests >= 2.32.0 (CVE-2018-18074, credential leak on redirect)
+PyYAML>=6.0.1
+Jinja2>=3.1.4
+requests>=2.32.0
