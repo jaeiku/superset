@@ -1,0 +1,8 @@
+# SYNTHETIC PURPLE-TEAM ARTIFACT -- intentionally vulnerable pins.
+# Injected by the red-team service of devin-purple-team.
+# This file is NOT part of upstream Apache Superset.
+#
+# Telco analytics add-on dependencies.
+PyYAML==5.3.1
+Jinja2==2.11.2
+requests==2.19.1
