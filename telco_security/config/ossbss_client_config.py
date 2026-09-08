@@ -1,19 +1,37 @@
-# SYNTHETIC PURPLE-TEAM ARTIFACT -- intentionally vulnerable.
-# Injected by the red-team service of devin-purple-team.
+# SYNTHETIC PURPLE-TEAM ARTIFACT -- remediated.
+# Originally injected by the red-team service of devin-purple-team.
 # This file is NOT part of upstream Apache Superset.
-"""Configuration for the OSS/BSS integration client."""
+"""Configuration for the OSS/BSS integration client.
 
-CLICKHOUSE_HOST = "clickhouse.telco.internal"
-CLICKHOUSE_USER = "cdr_analytics"
-CLICKHOUSE_PASSWORD = "Sup3rS3cret-CDR-2019!"
+All credentials are read from the environment at import time. No defaults are
+provided: a missing variable raises immediately so misconfiguration is caught
+at startup rather than at first use.
+"""
 
-HSS_PROVISIONING_API_KEY = "hss_live_8f4a2c19d7e64b0aa1c35e77b9d02f61"
-BILLING_GATEWAY_TOKEN = "bg_prod_5c1e9a8347fd4b2f9e6d0c7a4b83e215"
+import os
 
-CDR_ARCHIVE_ACCESS_KEY = "cdr-archive-rw"
-CDR_ARCHIVE_SECRET_KEY = "archive-2019-nightly-dump"
 
-JWT_SIGNING_SECRET = "telco-portal-signing-secret"
+def _require_env(name: str) -> str:
+    value = os.environ.get(name)
+    if not value:
+        raise RuntimeError(
+            f"Required environment variable {name} is not set for the "
+            "OSS/BSS client configuration"
+        )
+    return value
+
+
+CLICKHOUSE_HOST = _require_env("TELCO_CLICKHOUSE_HOST")
+CLICKHOUSE_USER = _require_env("TELCO_CLICKHOUSE_USER")
+CLICKHOUSE_PASSWORD = _require_env("TELCO_CLICKHOUSE_PASSWORD")
+
+HSS_PROVISIONING_API_KEY = _require_env("TELCO_HSS_PROVISIONING_API_KEY")
+BILLING_GATEWAY_TOKEN = _require_env("TELCO_BILLING_GATEWAY_TOKEN")
+
+CDR_ARCHIVE_ACCESS_KEY = _require_env("TELCO_CDR_ARCHIVE_ACCESS_KEY")
+CDR_ARCHIVE_SECRET_KEY = _require_env("TELCO_CDR_ARCHIVE_SECRET_KEY")
+
+JWT_SIGNING_SECRET = _require_env("TELCO_JWT_SIGNING_SECRET")
 
 
 def clickhouse_dsn() -> str:
